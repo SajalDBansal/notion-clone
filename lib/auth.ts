@@ -1,5 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaClient } from "./generated/prisma";
 
 export const NEXT_AUTH = {
     providers: [
@@ -11,17 +12,12 @@ export const NEXT_AUTH = {
                 password: { label: "Password", type: "password", placeholder: "Enter password" }
             },
             async authorize(credentials, req) {
-
-                // console.log(credentials);
-
-                // add function to authenticate user
-                // add function to send user signin data to prisma
-
-                return {
-                    id: "userid",
-                    name: "sajal",
-                    email: "sajala@gmail.com"
+                const user = await isValidUser(credentials);
+                if (!user) {
+                    throw new Error("Invalid_email_or_password");
                 }
+                const result = await createLog(user);
+                return result.user;
             }
         }),
         GoogleProvider({
@@ -31,24 +27,64 @@ export const NEXT_AUTH = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        jwt: async ({ user, token }: { user?: { id: string }, token: any }) => {
-            // console.log(token);
-            // token.userId = token.sub;
-            // if (user) {
-            //     token.user.id = user.id;
-            // }
-            return token;
-        },
         session: ({ session, token, user }: any) => {
             if (session.user) {
                 session.user.id = token.sub;
             }
-            console.log(session);
-
             return session
         }
     },
     pages: {
-        signIn: "/signin"
+        signIn: "/signin",
+        error: "/signin"
     }
 }
+
+async function isValidUser(data: Record<"email" | "password", string> | undefined) {
+    const prisma = new PrismaClient();
+    const user = await prisma.user.findFirst({
+        where: {
+            email: data?.email,
+            password: data?.password
+        }
+    })
+    return user;
+}
+
+type UserType = {
+    id: string;
+    name: string | null;
+    email: string;
+    password: string;
+    imageUrl: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+type UserinLog = UserType | null;
+
+async function createLog(user: UserinLog) {
+    const prisma = new PrismaClient();
+    const result = await prisma.userLogs.create({
+        data: {
+            type: "User logged in",
+            user: {
+                connect: {
+                    id: user?.id
+                }
+            }
+        },
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    email: true,
+                    name: true
+                }
+            }
+
+        }
+    })
+    return result;
+}
+

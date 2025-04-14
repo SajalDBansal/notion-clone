@@ -14,8 +14,9 @@ export const Authpage = async ({ type }: { type: "signup" | "signin" }) => {
     )
 }
 
-async function CheckLoggedin({ type }) {
+async function CheckLoggedin({ type }: { type: "signup" | "signin" }) {
     const session = await getServerSession(NEXT_AUTH);
+
     if (!session) {
         return (
             <EntryUserData type={type} />

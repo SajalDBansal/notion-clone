@@ -35,7 +35,7 @@ export const Navbar = () => {
 function LogOrSign() {
     const session = useSession();
 
-    if (session.data == null) {
+    if (session.status == "unauthenticated") {
         return (
             <Link href={"/signup"}>
                 <Button>

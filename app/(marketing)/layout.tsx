@@ -1,3 +1,4 @@
+import { Footer } from "./_components/Footer";
 import { Navbar } from "./_components/Navbar";
 
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
@@ -7,6 +8,7 @@ const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
             <main className="h-full pt-40">
                 {children}
             </main>
+            <Footer />
         </div>
     )
 

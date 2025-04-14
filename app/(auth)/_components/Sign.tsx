@@ -1,22 +1,22 @@
 "use client";
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react";
-
-interface SignupInput {
-    email: string,
-    password: string,
-    name: string
-}
-
-interface SinginInput {
-    email: string,
-    password: string
-}
+import axios from "axios";
+import { signinInput, SignupInput, SinginInput } from "@/lib/schema_types";
 
 export const EntryUserData = ({ type }: { type: "signup" | "signin" }) => {
-    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (searchParams.get("error")) {
+            const error = searchParams.get("error")?.split("_").join(" ");
+            setError(error || "");
+        }
+    }, [searchParams]);
+
 
     const [signupInputs, setSignupInputs] = useState<SignupInput>({
         name: "",
@@ -31,17 +31,51 @@ export const EntryUserData = ({ type }: { type: "signup" | "signin" }) => {
 
     async function sendRequest() {
         if (type == "signup") {
-            router.push("/");
+            sendSignUpRequest();
+            return;
+        } else {
+            sendSignInRequest();
             return;
         }
-        const res = await signIn("credentials", {
-            email: signinInputs.email,
-            password: signinInputs.password,
-        })
-        // console.log(res);
-        // router.push("/");
     }
 
+    async function sendSignInRequest() {
+        const { success } = signinInput.safeParse(signinInputs);
+
+        if (success) {
+            await signIn("credentials", {
+                email: signinInputs.email,
+                password: signinInputs.password,
+            })
+        } else {
+            setError("Plear enter valid inputs");
+        }
+    }
+
+    async function sendSignUpRequest() {
+        SendUserDataToDatabase();
+        await signIn("credentials", {
+            email: signupInputs.email,
+            password: signupInputs.password,
+        })
+    }
+
+    async function SendUserDataToDatabase() {
+        const users = await axios.post("http://localhost:3000/api/auth/user/signup", {
+            data: {
+                name: signupInputs.name,
+                email: signupInputs.email,
+                password: signupInputs.password
+            }
+        })
+        if (users.data.error) {
+            console.log("error occured while signup");
+            setError(users.data.error);
+            return;
+        } else {
+            setError("");
+        }
+    }
 
     return (
         <div>
@@ -56,8 +90,9 @@ export const EntryUserData = ({ type }: { type: "signup" | "signin" }) => {
                         {type === "signup" ? "Login" : "Signup"}
 
                     </Link>
-
-
+                </div>
+                <div className="text-center text-red-500 mt-2">
+                    {error}
                 </div>
             </div>
             <div className="pt-4">
