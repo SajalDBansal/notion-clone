@@ -1136,6 +1136,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     coverImage: string | null
+    icon: string | null
     parentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1149,6 +1150,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     coverImage: string | null
+    icon: string | null
     parentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1162,6 +1164,7 @@ export namespace Prisma {
     title: number
     content: number
     coverImage: number
+    icon: number
     parentId: number
     createdAt: number
     updatedAt: number
@@ -1177,6 +1180,7 @@ export namespace Prisma {
     title?: true
     content?: true
     coverImage?: true
+    icon?: true
     parentId?: true
     createdAt?: true
     updatedAt?: true
@@ -1190,6 +1194,7 @@ export namespace Prisma {
     title?: true
     content?: true
     coverImage?: true
+    icon?: true
     parentId?: true
     createdAt?: true
     updatedAt?: true
@@ -1203,6 +1208,7 @@ export namespace Prisma {
     title?: true
     content?: true
     coverImage?: true
+    icon?: true
     parentId?: true
     createdAt?: true
     updatedAt?: true
@@ -1287,8 +1293,9 @@ export namespace Prisma {
   export type DocumentGroupByOutputType = {
     id: string
     title: string
-    content: string
+    content: string | null
     coverImage: string | null
+    icon: string | null
     parentId: string | null
     createdAt: Date
     updatedAt: Date
@@ -1319,6 +1326,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     coverImage?: boolean
+    icon?: boolean
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1336,6 +1344,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     coverImage?: boolean
+    icon?: boolean
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1351,6 +1360,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     coverImage?: boolean
+    icon?: boolean
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1366,6 +1376,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     coverImage?: boolean
+    icon?: boolean
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1374,7 +1385,7 @@ export namespace Prisma {
     isPublished?: boolean
   }
 
-  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "coverImage" | "parentId" | "createdAt" | "updatedAt" | "userId" | "isArchived" | "isPublished", ExtArgs["result"]["document"]>
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "coverImage" | "icon" | "parentId" | "createdAt" | "updatedAt" | "userId" | "isArchived" | "isPublished", ExtArgs["result"]["document"]>
   export type DocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Document$parentArgs<ExtArgs>
     children?: boolean | Document$childrenArgs<ExtArgs>
@@ -1400,8 +1411,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      content: string
+      content: string | null
       coverImage: string | null
+      icon: string | null
       parentId: string | null
       createdAt: Date
       updatedAt: Date
@@ -1838,6 +1850,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Document", 'String'>
     readonly content: FieldRef<"Document", 'String'>
     readonly coverImage: FieldRef<"Document", 'String'>
+    readonly icon: FieldRef<"Document", 'String'>
     readonly parentId: FieldRef<"Document", 'String'>
     readonly createdAt: FieldRef<"Document", 'DateTime'>
     readonly updatedAt: FieldRef<"Document", 'DateTime'>
@@ -4489,6 +4502,7 @@ export namespace Prisma {
     title: 'title',
     content: 'content',
     coverImage: 'coverImage',
+    icon: 'icon',
     parentId: 'parentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -4610,8 +4624,9 @@ export namespace Prisma {
     NOT?: DocumentWhereInput | DocumentWhereInput[]
     id?: StringFilter<"Document"> | string
     title?: StringFilter<"Document"> | string
-    content?: StringFilter<"Document"> | string
+    content?: StringNullableFilter<"Document"> | string | null
     coverImage?: StringNullableFilter<"Document"> | string | null
+    icon?: StringNullableFilter<"Document"> | string | null
     parentId?: StringNullableFilter<"Document"> | string | null
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
@@ -4626,8 +4641,9 @@ export namespace Prisma {
   export type DocumentOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    content?: SortOrderInput | SortOrder
     coverImage?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4645,8 +4661,9 @@ export namespace Prisma {
     OR?: DocumentWhereInput[]
     NOT?: DocumentWhereInput | DocumentWhereInput[]
     title?: StringFilter<"Document"> | string
-    content?: StringFilter<"Document"> | string
+    content?: StringNullableFilter<"Document"> | string | null
     coverImage?: StringNullableFilter<"Document"> | string | null
+    icon?: StringNullableFilter<"Document"> | string | null
     parentId?: StringNullableFilter<"Document"> | string | null
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
@@ -4661,8 +4678,9 @@ export namespace Prisma {
   export type DocumentOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    content?: SortOrderInput | SortOrder
     coverImage?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4680,8 +4698,9 @@ export namespace Prisma {
     NOT?: DocumentScalarWhereWithAggregatesInput | DocumentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Document"> | string
     title?: StringWithAggregatesFilter<"Document"> | string
-    content?: StringWithAggregatesFilter<"Document"> | string
+    content?: StringNullableWithAggregatesFilter<"Document"> | string | null
     coverImage?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Document"> | string | null
     parentId?: StringNullableWithAggregatesFilter<"Document"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -4811,8 +4830,9 @@ export namespace Prisma {
   export type DocumentCreateInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isArchived: boolean
@@ -4825,8 +4845,9 @@ export namespace Prisma {
   export type DocumentUncheckedCreateInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4839,8 +4860,9 @@ export namespace Prisma {
   export type DocumentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isArchived?: BoolFieldUpdateOperationsInput | boolean
@@ -4853,8 +4875,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4867,8 +4890,9 @@ export namespace Prisma {
   export type DocumentCreateManyInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4880,8 +4904,9 @@ export namespace Prisma {
   export type DocumentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isArchived?: BoolFieldUpdateOperationsInput | boolean
@@ -4891,8 +4916,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5103,6 +5129,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     coverImage?: SortOrder
+    icon?: SortOrder
     parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5116,6 +5143,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     coverImage?: SortOrder
+    icon?: SortOrder
     parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5129,6 +5157,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     coverImage?: SortOrder
+    icon?: SortOrder
     parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5567,8 +5596,9 @@ export namespace Prisma {
   export type DocumentCreateWithoutChildrenInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isArchived: boolean
@@ -5580,8 +5610,9 @@ export namespace Prisma {
   export type DocumentUncheckedCreateWithoutChildrenInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5598,8 +5629,9 @@ export namespace Prisma {
   export type DocumentCreateWithoutParentInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isArchived: boolean
@@ -5611,8 +5643,9 @@ export namespace Prisma {
   export type DocumentUncheckedCreateWithoutParentInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -5672,8 +5705,9 @@ export namespace Prisma {
   export type DocumentUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isArchived?: BoolFieldUpdateOperationsInput | boolean
@@ -5685,8 +5719,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5717,8 +5752,9 @@ export namespace Prisma {
     NOT?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
     id?: StringFilter<"Document"> | string
     title?: StringFilter<"Document"> | string
-    content?: StringFilter<"Document"> | string
+    content?: StringNullableFilter<"Document"> | string | null
     coverImage?: StringNullableFilter<"Document"> | string | null
+    icon?: StringNullableFilter<"Document"> | string | null
     parentId?: StringNullableFilter<"Document"> | string | null
     createdAt?: DateTimeFilter<"Document"> | Date | string
     updatedAt?: DateTimeFilter<"Document"> | Date | string
@@ -5763,8 +5799,9 @@ export namespace Prisma {
   export type DocumentCreateWithoutUserInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     isArchived: boolean
@@ -5776,8 +5813,9 @@ export namespace Prisma {
   export type DocumentUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5923,8 +5961,9 @@ export namespace Prisma {
   export type DocumentCreateManyParentInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -5935,8 +5974,9 @@ export namespace Prisma {
   export type DocumentUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isArchived?: BoolFieldUpdateOperationsInput | boolean
@@ -5948,8 +5988,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -5961,8 +6002,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateManyWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -5973,8 +6015,9 @@ export namespace Prisma {
   export type DocumentCreateManyUserInput = {
     id?: string
     title: string
-    content: string
+    content?: string | null
     coverImage?: string | null
+    icon?: string | null
     parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5991,8 +6034,9 @@ export namespace Prisma {
   export type DocumentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isArchived?: BoolFieldUpdateOperationsInput | boolean
@@ -6004,8 +6048,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6017,8 +6062,9 @@ export namespace Prisma {
   export type DocumentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

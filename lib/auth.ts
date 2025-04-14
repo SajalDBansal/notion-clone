@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "./generated/prisma";
+import { createLog } from "./prisma_functions/createLog";
+import { isValidUser } from "./prisma_functions/isValidUser";
+import { addGoogleUser } from "./prisma_functions/addGoogleUser";
 
 export const NEXT_AUTH = {
     providers: [
@@ -27,7 +31,19 @@ export const NEXT_AUTH = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        session: ({ session, token, user }: any) => {
+        signIn: async ({ account, profile }: any) => {
+            if (account.provider === "google") {
+                const isExisit = await isValidUser({ email: profile.email, password: profile.name });
+                if (!isExisit) {
+                    const user = await addGoogleUser(profile);
+                    await createLog(user);
+                } else {
+                    await createLog(isExisit);
+                }
+            }
+            return true;
+        },
+        session: ({ session, token }: any) => {
             if (session.user) {
                 session.user.id = token.sub;
             }
@@ -39,52 +55,3 @@ export const NEXT_AUTH = {
         error: "/signin"
     }
 }
-
-async function isValidUser(data: Record<"email" | "password", string> | undefined) {
-    const prisma = new PrismaClient();
-    const user = await prisma.user.findFirst({
-        where: {
-            email: data?.email,
-            password: data?.password
-        }
-    })
-    return user;
-}
-
-type UserType = {
-    id: string;
-    name: string | null;
-    email: string;
-    password: string;
-    imageUrl: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-type UserinLog = UserType | null;
-
-async function createLog(user: UserinLog) {
-    const prisma = new PrismaClient();
-    const result = await prisma.userLogs.create({
-        data: {
-            type: "User logged in",
-            user: {
-                connect: {
-                    id: user?.id
-                }
-            }
-        },
-        select: {
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    name: true
-                }
-            }
-
-        }
-    })
-    return result;
-}
-

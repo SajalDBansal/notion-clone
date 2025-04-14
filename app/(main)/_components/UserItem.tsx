@@ -17,16 +17,13 @@ import Link from "next/link"
 export const UserItem = () => {
     const session = useSession();
     const user = session.data?.user;
-    console.log(user);
-
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div role="button" className="flex items-center text-sm p-3 w-full hover:bg-primary/5">
                     <div className="gap-x-2 flex items-center max-w-[150px]">
                         <Avatar className="h-7 w-7">
-                            <AvatarImage src={"./blankUser.png"} />
+                            <AvatarImage src={user?.image || "./blankUser.png"} />
                         </Avatar>
                         <span className="text-start font-medium line-clamp-1">
                             {user?.name}&apos;s Notion
@@ -48,7 +45,7 @@ export const UserItem = () => {
                     <div className="flex items-center gap-x-2">
                         <div className="rounded-md bg-secondary p-1">
                             <Avatar className="h-8 w-8">
-                                <AvatarImage src="./blankUser.png" />
+                                <AvatarImage src={user?.image || "./blankUser.png"} />
                             </Avatar>
                         </div>
                         <div className="space-y-1">

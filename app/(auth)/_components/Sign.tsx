@@ -54,6 +54,7 @@ export const EntryUserData = ({ type }: { type: "signup" | "signin" }) => {
 
     async function sendSignUpRequest() {
         SendUserDataToDatabase();
+        console.log(signupInputs);
         await signIn("credentials", {
             email: signupInputs.email,
             password: signupInputs.password,
@@ -69,7 +70,6 @@ export const EntryUserData = ({ type }: { type: "signup" | "signin" }) => {
             }
         })
         if (users.data.error) {
-            console.log("error occured while signup");
             setError(users.data.error);
             return;
         } else {

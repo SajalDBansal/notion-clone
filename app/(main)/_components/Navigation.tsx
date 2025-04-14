@@ -6,9 +6,13 @@ import { usePathname } from "next/navigation";
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { UserItem } from "./UserItem";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export const Navigation = () => {
     const pathName = usePathname();
+    const session = useSession();
+    const [documents, setDocuments] = useState([]);
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     const isResizingRef = useRef(false);
@@ -16,6 +20,14 @@ export const Navigation = () => {
     const navbarRef = useRef<ComponentRef<"div">>(null);
     const [isResetting, setIsResetting] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(isMobile);
+
+    useEffect(() => {
+        axios.get(`http://localhost:3000/api/document?id=${session.data?.user?.id}`)
+            .then((res) => {
+                setDocuments(res.data);
+            })
+
+    }, [session.data?.user?.id])
 
     useEffect(() => {
         if (isMobile) {
@@ -114,7 +126,8 @@ export const Navigation = () => {
                     <UserItem />
                 </div>
                 <div className="mt-4">
-                    <p>Documents</p>
+                    {/* <p>Documents</p> */}
+                    {documents?.map((document) => (<p key={document.id}>{document.title}</p>))}
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
