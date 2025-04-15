@@ -7,7 +7,7 @@ export default function Privacy() {
                         Privacy Policy of <span className="underline">Notion</span>
                     </h1>
                     <h3 className="text-base sm:text-xl md:text-2xl font-medium">
-                        This is a dummy terms & conditions page. <br /> The written data is sample generated from chatGPT
+                        This is a dummy privacy policy page. <br /> The written data is sample generated from chatGPT
                     </h3>
                     <div className="mt-15">
                         <div><b>Effective Date:</b> April 10, 2025</div>
@@ -15,7 +15,7 @@ export default function Privacy() {
                             At NotionClone, your privacy is our priority. This Privacy Policy outlines the types of information we collect, how we use it, and the choices you have regarding your data.
                         </p>
                         <div className="mt-4 text-justify">
-                            At Notion, we take your privacy seriously and are committed to safeguarding your personal data. When you use our platform to create, organize, or share content, all information—whether it's text, files, or media—is securely stored and accessible only to you and the collaborators you authorize. We do not sell or share your personal information or workspace data with third parties without your consent.
+                            At Notion, we take your privacy seriously and are committed to safeguarding your personal data. When you use our platform to create, organize, or share content, all information—whether it&apos;s text, files, or media—is securely stored and accessible only to you and the collaborators you authorize. We do not sell or share your personal information or workspace data with third parties without your consent.
 
                             All data is transmitted using encrypted connections (SSL), and we follow industry-standard practices to protect against unauthorized access or breaches. Access to user data is limited to authorized personnel who require it for maintaining and improving our services.
 

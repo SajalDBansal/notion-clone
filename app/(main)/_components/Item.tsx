@@ -47,7 +47,7 @@ export const Item = ({
     ) => {
         event.stopPropagation();
         if (!id) return;
-        const childDoc = await createNewDocument({
+        await createNewDocument({
             title: "Untitled",
             parentId: id,
             userId: userId

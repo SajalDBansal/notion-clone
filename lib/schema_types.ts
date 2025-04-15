@@ -53,3 +53,11 @@ export type ArchiveDocProps = {
     id: string,
     isArchived: boolean,
 }
+
+export type AddGoogleUserProps = {
+    sub: string,
+    name: string,
+    email: string,
+    password: string,
+    picture: string,
+}

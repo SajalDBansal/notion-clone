@@ -141,16 +141,19 @@ export const Navigation = () => {
                         icon={Search}
                         isSearch
                         onClick={() => { }}
+                        userId={sessionUser.id}
                     />
                     <Item
                         label="Settings"
                         icon={Settings}
                         onClick={() => { }}
+                        userId={sessionUser.id}
                     />
                     <Item
                         onClick={createNewDocument}
                         label="New page"
                         icon={PlusCircle}
+                        userId={sessionUser.id}
                     />
                 </div>
                 <div className="mt-4">

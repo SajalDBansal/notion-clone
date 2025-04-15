@@ -21,7 +21,7 @@ export default function terms() {
 
                             You retain ownership of any content you create or upload, but by using our service, you grant us a limited license to store and process that content as necessary to provide core features such as syncing, collaboration, and backup. We reserve the right to suspend or terminate accounts that violate these terms or pose a risk to the integrity of the platform.
 
-                            While we strive to offer a reliable and secure service, [Your App Name] is provided "as is" without warranties of any kind. We are not liable for any data loss, service interruption, or indirect damages.
+                            While we strive to offer a reliable and secure service, [Your App Name] is provided &quot;as is&quot; without warranties of any kind. We are not liable for any data loss, service interruption, or indirect damages.
 
                             We may update these terms from time to time, and continued use of the platform constitutes your acceptance of any changes.
                         </div>
