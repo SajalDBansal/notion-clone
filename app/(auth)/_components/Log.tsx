@@ -13,7 +13,7 @@ export const AlreadyLogged = () => {
                 <div className="text-4xl font-bold pb-10 text-center">
                     Sign in as
                     <div className="pt-2">
-                        @{session.data?.user.name}
+                        @{session.data?.user?.name}
                     </div>
 
                 </div>

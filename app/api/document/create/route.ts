@@ -11,7 +11,8 @@ export async function POST(req: NextRequest) {
     const user = await req.json();
     const docs = await createDocument({
         title: "Untitled",
-        userId: user.data.userId
+        userId: user.data.userId,
+        parentId: user.data.parentId,
     })
 
     return NextResponse.json(docs);

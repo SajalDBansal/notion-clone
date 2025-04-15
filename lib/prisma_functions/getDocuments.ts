@@ -2,11 +2,14 @@ import { PrismaClient } from "../generated/prisma";
 
 const prisma = new PrismaClient();
 
-export async function getDocuments({ id }: { id: string }) {
+export async function getDocuments({ id, parentId }: { id: string, parentId?: string }) {
+
     try {
         const documents = await prisma.document.findMany({
             where: {
-                userId: id
+                userId: id,
+                parentId: parentId || null,
+                isArchived: false,
             }
         })
         return documents;

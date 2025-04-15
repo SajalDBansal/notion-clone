@@ -33,3 +33,23 @@ export type CreateDocumentType = {
     parentId?: string,
     userId: string
 }
+
+export type DocumentType = {
+    content?: string,
+    coverImage?: string,
+    createdAt: string,
+    icon?: string
+    id: string,
+    isArchived: boolean,
+    isPublished: boolean,
+    parentId?: string
+    title: string,
+    updatedAt?: string,
+    userId: string
+}
+
+export type ArchiveDocProps = {
+    userId: string,
+    id: string,
+    isArchived: boolean,
+}

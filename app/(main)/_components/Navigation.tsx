@@ -1,18 +1,22 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { UserItem } from "./UserItem";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { Item } from "./Item";
+import { DocumentList } from "./DocumentList";
 
 export const Navigation = () => {
+    const [loading, setLoading] = useState(false);
     const pathName = usePathname();
     const session = useSession();
-    const [documents, setDocuments] = useState([]);
+    const sessionUser = session.data?.user as { id: string };
+
     const isMobile = useMediaQuery("(max-width: 768px)");
 
     const isResizingRef = useRef(false);
@@ -20,14 +24,6 @@ export const Navigation = () => {
     const navbarRef = useRef<ComponentRef<"div">>(null);
     const [isResetting, setIsResetting] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(isMobile);
-
-    useEffect(() => {
-        axios.get(`http://localhost:3000/api/document?id=${session.data?.user?.id}`)
-            .then((res) => {
-                setDocuments(res.data);
-            })
-
-    }, [session.data?.user?.id])
 
     useEffect(() => {
         if (isMobile) {
@@ -103,6 +99,22 @@ export const Navigation = () => {
         }
     }
 
+    async function createNewDocument() {
+        try {
+            setLoading(true);
+            await axios.post("http://localhost:3000/api/document/create", {
+                data: {
+                    userId: sessionUser.id
+                }
+            });
+        } catch (error) {
+            console.error("Error while creating a new document : ", error)
+
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <>
             <aside
@@ -124,10 +136,25 @@ export const Navigation = () => {
                 </div>
                 <div>
                     <UserItem />
+                    <Item
+                        label="Search"
+                        icon={Search}
+                        isSearch
+                        onClick={() => { }}
+                    />
+                    <Item
+                        label="Settings"
+                        icon={Settings}
+                        onClick={() => { }}
+                    />
+                    <Item
+                        onClick={createNewDocument}
+                        label="New page"
+                        icon={PlusCircle}
+                    />
                 </div>
                 <div className="mt-4">
-                    {/* <p>Documents</p> */}
-                    {documents?.map((document) => (<p key={document.id}>{document.title}</p>))}
+                    <DocumentList loading={loading} />
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
