@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma"
+import { PrismaClient } from "@prisma/client"
 import { SignupInput } from "../schema_types";
 
 export async function createUser(userData: SignupInput) {

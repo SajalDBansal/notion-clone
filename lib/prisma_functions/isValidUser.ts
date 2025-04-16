@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "@prisma/client"
 import { SinginInput } from "../schema_types";
 
 export async function isValidUser(data: SinginInput | undefined) {

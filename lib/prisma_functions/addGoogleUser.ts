@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "@prisma/client"
 import { AddGoogleUserProps } from "../schema_types";
 
 export async function addGoogleUser(sessionData: AddGoogleUserProps) {

@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "@prisma/client"
 import { UserinLog } from "../schema_types";
 
 export async function createLog(user: UserinLog) {
