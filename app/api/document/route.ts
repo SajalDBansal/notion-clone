@@ -1,4 +1,4 @@
-import { getDocuments } from "@/lib/prisma_functions/getDocuments";
+import { getDocuments } from "@/lib/prisma_functions/Documents/getDocuments";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

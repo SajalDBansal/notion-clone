@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client"
-import { AddGoogleUserProps } from "../schema_types";
+import { AddGoogleUserProps } from "@/lib/schema_types";
+import prisma from "@/prisma";
 
 export async function addGoogleUser(sessionData: AddGoogleUserProps) {
-    const prisma = new PrismaClient();
     const user = await prisma.user.create({
         data: {
             id: sessionData.sub,

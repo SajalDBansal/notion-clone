@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client"
-import { CreateDocumentType } from "../schema_types";
-
-const prisma = new PrismaClient();
+import { CreateDocumentType } from "@/lib/schema_types";
+import prisma from "@/prisma";
 
 export async function createDocument(data: CreateDocumentType) {
     try {

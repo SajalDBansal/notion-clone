@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { z } from "zod";
 
 
@@ -51,7 +52,7 @@ export type DocumentType = {
 export type ArchiveDocProps = {
     userId: string,
     id: string,
-    isArchived: boolean,
+    isArchived?: boolean,
 }
 
 export type AddGoogleUserProps = {
@@ -60,4 +61,42 @@ export type AddGoogleUserProps = {
     email: string,
     password: string,
     picture: string,
+}
+
+export type ItemsProps = {
+    id?: string,
+    documentIcon?: string,
+    active?: boolean,
+    expanded?: boolean,
+    isSearch?: boolean,
+    level?: number,
+    label: string,
+    onClick?: () => void,
+    onExpand?: () => void,
+    icon: LucideIcon,
+    userId: string,
+    render?: () => void
+}
+
+export type ConfirmModalProps = {
+    children: React.ReactNode,
+    onConfirm: () => void,
+}
+
+export type SearchStore = {
+    isOpen: boolean,
+    onOpen: () => void,
+    onClose: () => void,
+    toggle: () => void
+}
+
+export type SettingStore = {
+    isOpen: boolean,
+    onOpen: () => void,
+    onClose: () => void,
+}
+
+export type MainNavbarProps = {
+    isCollapsed: boolean,
+    onResetWidth: () => void
 }

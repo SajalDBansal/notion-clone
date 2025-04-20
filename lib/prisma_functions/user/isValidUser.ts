@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client"
-import { SinginInput } from "../schema_types";
+import { SinginInput } from "@/lib/schema_types";
+import prisma from "@/prisma";
+
 
 export async function isValidUser(data: SinginInput | undefined) {
-    const prisma = new PrismaClient();
     const user = await prisma.user.findFirst({
         where: {
             email: data?.email,

@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
+import { useParams, usePathname } from "next/navigation";
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { UserItem } from "./UserItem";
@@ -10,15 +10,22 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { Item } from "./Item";
 import { DocumentList } from "./DocumentList";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { TrashBox } from "./TrashBox";
+import { useSearch } from "@/hooks/useSearch";
+import { useSetting } from "@/hooks/useSetting";
+import { Navbar } from "./Navbar";
 
 export const Navigation = () => {
+    const search = useSearch();
+    const setting = useSetting();
+    const params = useParams();
     const [loading, setLoading] = useState(false);
+    const [render, setRender] = useState(false);
     const pathName = usePathname();
     const session = useSession();
     const sessionUser = session.data?.user as { id: string };
-
     const isMobile = useMediaQuery("(max-width: 768px)");
-
     const isResizingRef = useRef(false);
     const sidebarRef = useRef<ComponentRef<"aside">>(null);
     const navbarRef = useRef<ComponentRef<"div">>(null);
@@ -102,14 +109,13 @@ export const Navigation = () => {
     async function createNewDocument() {
         try {
             setLoading(true);
-            await axios.post("http://localhost:3000/api/document/create", {
+            await axios.post("/api/document/create", {
                 data: {
                     userId: sessionUser.id
                 }
             });
         } catch (error) {
             console.error("Error while creating a new document : ", error)
-
         } finally {
             setLoading(false);
         }
@@ -140,13 +146,13 @@ export const Navigation = () => {
                         label="Search"
                         icon={Search}
                         isSearch
-                        onClick={() => { }}
+                        onClick={search.onOpen}
                         userId={sessionUser.id}
                     />
                     <Item
                         label="Settings"
                         icon={Settings}
-                        onClick={() => { }}
+                        onClick={setting.onOpen}
                         userId={sessionUser.id}
                     />
                     <Item
@@ -157,7 +163,34 @@ export const Navigation = () => {
                     />
                 </div>
                 <div className="mt-4">
-                    <DocumentList loading={loading} />
+                    <DocumentList
+                        loading={loading}
+                        render={render}
+                        setRender={setRender}
+                    />
+                    <Item
+                        onClick={createNewDocument}
+                        label="Add a page"
+                        icon={Plus}
+                        userId={sessionUser.id}
+                    />
+                    <Popover>
+                        <PopoverTrigger className="w-full mt-4">
+                            <Item
+                                label="Trash"
+                                icon={Trash}
+                                userId={sessionUser.id}
+                            />
+                        </PopoverTrigger>
+                        <PopoverContent
+                            className="p-0 pl-2 w-72"
+                            side={isMobile ? "bottom" : "right"}
+                        >
+                            <TrashBox
+                                render={() => setRender((t) => !t)}
+                            />
+                        </PopoverContent>
+                    </Popover>
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
@@ -172,10 +205,16 @@ export const Navigation = () => {
                     isMobile && "left-0 w-full"
                 )}
             >
-                <nav className="bg-transparent px-3 py-2 w-full">
-                    {isCollapsed && <MenuIcon onClick={resetWidth} role="button" className="h-6 w-6 text-muted-foreground" />}
-                </nav>
-
+                {!!params.documentId ? (
+                    <Navbar
+                        isCollapsed={isCollapsed}
+                        onResetWidth={resetWidth}
+                    />
+                ) : (
+                    <nav className="bg-transparent px-3 py-2 w-full">
+                        {isCollapsed && <MenuIcon onClick={resetWidth} role="button" className="h-6 w-6 text-muted-foreground" />}
+                    </nav>
+                )}
             </div>
         </>
     )

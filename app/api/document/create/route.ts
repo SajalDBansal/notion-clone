@@ -1,4 +1,4 @@
-import { createDocument } from "@/lib/prisma_functions/createDocument";
+import { createDocument } from "@/lib/prisma_functions/Documents/createDocument";
 import { NextRequest, NextResponse } from "next/server";
 
 export function GET() {

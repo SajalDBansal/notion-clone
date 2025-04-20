@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client"
-import { ArchiveDocProps } from "../schema_types";
-
-const prisma = new PrismaClient();
+import { ArchiveDocProps } from "@/lib/schema_types";
+import prisma from "@/prisma";
 
 export async function archiveDoc({ id, userId, isArchived }: ArchiveDocProps) {
+    // console.log(id);
     try {
         const archived = await prisma.document.update({
             where: {
@@ -11,7 +10,7 @@ export async function archiveDoc({ id, userId, isArchived }: ArchiveDocProps) {
                 userId: userId
             },
             data: {
-                isArchived: !isArchived,
+                isArchived: true,
             }
         })
         await archiveChildrens({ id: archived.id, userId: userId, isArchived });
@@ -20,7 +19,6 @@ export async function archiveDoc({ id, userId, isArchived }: ArchiveDocProps) {
     } catch (error) {
         return new Error("error while archiving doc :" + error);
     }
-
 }
 
 async function archiveChildrens({ id, userId }: ArchiveDocProps) {
@@ -31,18 +29,18 @@ async function archiveChildrens({ id, userId }: ArchiveDocProps) {
         }
     })
 
-    const updateChildrens = await Promise.all(
-        childs.map((child) =>
-            prisma.document.update({
-                where: { id: child.id },
-                data: { isArchived: true }
-            })
-        )
-    );
-
-    updateChildrens.map(async (child) => {
-        await archiveChildrens({ id: child.id, userId: child.userId, isArchived: child.isArchived });
-    })
-
-    return childs;
+    if (childs) {
+        const updateChildrens = await Promise.all(
+            childs.map(async (child) =>
+                await prisma.document.update({
+                    where: { id: child.id },
+                    data: { isArchived: true }
+                })
+            )
+        );
+        updateChildrens.map(async (child) => {
+            await archiveChildrens({ id: child.id, userId: child.userId, isArchived: child.isArchived });
+        })
+        return childs;
+    }
 }

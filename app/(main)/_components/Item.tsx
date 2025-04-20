@@ -1,24 +1,12 @@
 "use client";
+import { DropdownMenu, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CreateDocumentType } from "@/lib/schema_types";
+import { ArchiveDocProps, CreateDocumentType, ItemsProps } from "@/lib/schema_types";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react"
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from "lucide-react"
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-type ItemsProps = {
-    id?: string,
-    documentIcon?: string,
-    active?: boolean,
-    expanded?: boolean,
-    isSearch?: boolean,
-    level?: number,
-    label: string,
-    onClick: () => void,
-    onExpand?: () => void,
-    icon: LucideIcon,
-    userId: string
-}
 
 export const Item = ({
     id,
@@ -31,9 +19,11 @@ export const Item = ({
     isSearch,
     onExpand,
     level = 0,
-    userId
+    userId,
+    render
 }: ItemsProps) => {
     const router = useRouter();
+    const session = useSession();
 
     const handleExpand = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -59,12 +49,37 @@ export const Item = ({
         // router.push(`/documents/${childDoc.id}`);
     }
 
+    const onArchive = async (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        event.stopPropagation();
+        if (!id) return;
+        await archiveDocument({ id, userId, isArchived: false });
+        if (render) render();
+    }
+
     async function createNewDocument({ parentId, userId }: CreateDocumentType) {
         try {
-            const doc = await axios.post("http://localhost:3000/api/document/create", {
+            const doc = await axios.post("/api/document/create", {
                 data: {
                     userId: userId,
                     parentId: parentId,
+                }
+            });
+            if (render) render();
+            return doc;
+        } catch (error) {
+            console.error("Error while creating a new document : ", error)
+        }
+    }
+
+    async function archiveDocument({ id, userId, isArchived }: ArchiveDocProps) {
+        try {
+            const doc = await axios.put("/api/document/archive", {
+                data: {
+                    id: id,
+                    userId: userId,
+                    isArchived: isArchived
                 }
             });
             return doc;
@@ -90,7 +105,7 @@ export const Item = ({
             {!!id && (
                 <div
                     role="button"
-                    className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+                    className="h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1"
                     onClick={handleExpand}
                 >
                     <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground/50" />
@@ -115,6 +130,30 @@ export const Item = ({
             )}
             {!!id && (
                 <div className="ml-auto flex items-center gap-x-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
+                            <div
+                                role="button"
+                                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:bg-neutral-600">
+                                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            className="w-60"
+                            align="start"
+                            side="right"
+                            forceMount
+                        >
+                            <DropdownMenuItem onClick={onArchive}>
+                                <Trash className="h-4 w-4 mr-2" />
+                                Delete
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <div className="text-xs text-muted-foreground p-2">
+                                Last edited by : {session.data?.user?.name}
+                            </div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <div
                         role="button"
                         onClick={onCreate}

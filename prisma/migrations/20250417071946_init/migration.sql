@@ -2,7 +2,7 @@
 CREATE TABLE "Document" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
+    "content" TEXT,
     "coverImage" TEXT,
     "icon" TEXT,
     "parentId" TEXT,

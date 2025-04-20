@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { createLog } from "./prisma_functions/createLog";
-import { isValidUser } from "./prisma_functions/isValidUser";
-import { addGoogleUser } from "./prisma_functions/addGoogleUser";
+import { isValidUser } from "@/lib/prisma_functions/user/isValidUser";
+import { createLog } from "@/lib/prisma_functions/user/createLog";
+import { addGoogleUser } from "@/lib/prisma_functions/user/addGoogleUser";
 
 export const NEXT_AUTH = {
     providers: [

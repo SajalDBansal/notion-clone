@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client"
-import { UserinLog } from "../schema_types";
+import { UserinLog } from "@/lib/schema_types";
+import prisma from "@/prisma";
 
 export async function createLog(user: UserinLog) {
-    const prisma = new PrismaClient();
     const result = await prisma.userLogs.create({
         data: {
             type: "User logged in",

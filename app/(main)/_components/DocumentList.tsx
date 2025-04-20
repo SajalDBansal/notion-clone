@@ -13,10 +13,13 @@ type DocumentListProps = {
     parentId?: string,
     level?: number,
     loading?: boolean
-    data?: DocumentType[]
+    data?: DocumentType[],
+    render?: boolean,
+    setRender: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const DocumentList = ({ parentId, level = 0, loading }: DocumentListProps) => {
+export const DocumentList = (
+    { parentId, level = 0, loading, render, setRender }: DocumentListProps) => {
     const params = useParams();
     const router = useRouter();
     const session = useSession();
@@ -25,15 +28,15 @@ export const DocumentList = ({ parentId, level = 0, loading }: DocumentListProps
     const [documents, setDocuments] = useState<DocumentType[]>([]);
 
     const documentsFetchUrl = parentId ?
-        `http://localhost:3000/api/document?id=${sessionUser.id}&parentId=${parentId}` :
-        `http://localhost:3000/api/document?id=${sessionUser.id}`;
+        `/api/document?id=${sessionUser.id}&parentId=${parentId}` :
+        `/api/document?id=${sessionUser.id}`;
 
     useEffect(() => {
         axios.get(documentsFetchUrl)
             .then((res) => {
                 setDocuments(res.data);
             })
-    }, [documentsFetchUrl, loading])
+    }, [documentsFetchUrl, loading, render])
 
     const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -62,7 +65,6 @@ export const DocumentList = ({ parentId, level = 0, loading }: DocumentListProps
         )
     }
 
-
     return (
         <>
             <p style={{
@@ -89,11 +91,14 @@ export const DocumentList = ({ parentId, level = 0, loading }: DocumentListProps
                         onExpand={() => onExpand(doc.id)}
                         expanded={expanded[doc.id]}
                         userId={sessionUser.id}
+                        render={() => setRender((t) => !t)}
                     />
                     {expanded[doc.id] && (
                         <DocumentList
                             parentId={doc.id}
                             level={level + 1}
+                            render={render}
+                            setRender={() => { }}
                         />
                     )}
                 </div>

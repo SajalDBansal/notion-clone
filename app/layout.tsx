@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SessionProvide } from "@/components/providers/session-provider";
-import { Toaster } from "sonner";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,7 +52,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="notion-theme"
           >
-            <Toaster position="bottom-center" />
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </SessionProvide>

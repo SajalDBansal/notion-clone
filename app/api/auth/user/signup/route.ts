@@ -1,4 +1,4 @@
-import { createUser } from "@/lib/prisma_functions/createUser";
+import { createUser } from "@/lib/prisma_functions/user/createUser";
 import { signupInput } from "@/lib/schema_types";
 import { NextRequest, NextResponse } from "next/server";
 

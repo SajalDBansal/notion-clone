@@ -25,7 +25,6 @@ export default function Documents() {
             <h2 className="text-lg font-medium">
                 Welcome to {username}&apos;s Notion
             </h2>
-
         </div>
     )
 }

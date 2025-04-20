@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client"
-import { SignupInput } from "../schema_types";
+import { SignupInput } from "@/lib/schema_types";
+import prisma from "@/prisma";
+
 
 export async function createUser(userData: SignupInput) {
-    const prisma = new PrismaClient();
     await prisma.user.create({
         data: {
             name: userData.name,
