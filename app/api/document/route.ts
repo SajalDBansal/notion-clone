@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const documentId = searchParams.get("documentId");
     const preview = searchParams.get("preview");
-    console.log(preview);
     if (documentId) {
         const document = await getDocumentById({ documentId });
         if (preview) {
