@@ -12,7 +12,7 @@ export const Title = ({ initialData }: { initialData: DocumentType }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [title, setTitle] = useState(initialData.title || "Untitled");
     const [isEditing, setIsEditing] = useState(false);
-    const [document, setDocument] = useState<DocumentType>(initialData);
+    const [, setDocument] = useState<DocumentType>(initialData);
     const { render, setRender } = useRender();
 
     useEffect(() => {

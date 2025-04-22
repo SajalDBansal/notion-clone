@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { UserItem } from "./UserItem";
@@ -18,7 +18,6 @@ import { Navbar } from "./Navbar";
 
 export const Navigation = () => {
     const search = useSearch();
-    const router = useRouter();
     const setting = useSetting();
     const params = useParams();
     const [loading, setLoading] = useState(false);

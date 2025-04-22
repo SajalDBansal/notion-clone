@@ -19,7 +19,7 @@ export const TrashBox = () => {
     const session = useSession();
     const sessionUser = session.data?.user as { id: string };
     const [loading, setLoading] = useState(false);
-    const { render, setRender } = useRender();
+    const { setRender } = useRender();
 
     const [search, setSearch] = useState("");
 

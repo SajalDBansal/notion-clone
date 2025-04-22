@@ -5,7 +5,7 @@ import { ToolBar } from "@/components/ToolBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DocumentType } from "@/lib/schema_types";
 import axios from "axios";
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
