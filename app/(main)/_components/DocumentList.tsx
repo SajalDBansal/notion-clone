@@ -1,6 +1,6 @@
 "use client";
 
-import { DocumentType } from "@/lib/schema_types";
+import { DocumentListProps, DocumentType } from "@/lib/schema_types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
@@ -8,18 +8,11 @@ import { useEffect, useState } from "react";
 import { Item } from "./Item";
 import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
-
-type DocumentListProps = {
-    parentId?: string,
-    level?: number,
-    loading?: boolean
-    data?: DocumentType[],
-    render?: boolean,
-    setRender: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { useRender } from "@/hooks/useRender";
 
 export const DocumentList = (
-    { parentId, level = 0, loading, render, setRender }: DocumentListProps) => {
+    { parentId, level = 0, loading }: DocumentListProps) => {
+    const { render } = useRender();
     const params = useParams();
     const router = useRouter();
     const session = useSession();
@@ -86,19 +79,16 @@ export const DocumentList = (
                         label={doc.title}
                         icon={FileIcon}
                         documentIcon={doc.icon}
-                        active={params.docId === doc.id}
+                        active={params.documentId === doc.id}
                         level={level}
                         onExpand={() => onExpand(doc.id)}
                         expanded={expanded[doc.id]}
                         userId={sessionUser.id}
-                        render={() => setRender((t) => !t)}
                     />
                     {expanded[doc.id] && (
                         <DocumentList
                             parentId={doc.id}
                             level={level + 1}
-                            render={render}
-                            setRender={() => { }}
                         />
                     )}
                 </div>

@@ -1,12 +1,13 @@
 "use client";
 import { DropdownMenu, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRender } from "@/hooks/useRender";
 import { ArchiveDocProps, CreateDocumentType, ItemsProps } from "@/lib/schema_types";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from "lucide-react"
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export const Item = ({
     id,
@@ -20,10 +21,11 @@ export const Item = ({
     onExpand,
     level = 0,
     userId,
-    render
 }: ItemsProps) => {
     const router = useRouter();
     const session = useSession();
+    const { setRender } = useRender();
+    const params = useParams();
 
     const handleExpand = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -45,7 +47,7 @@ export const Item = ({
         if (!expanded) {
             onExpand?.();
         }
-        router.refresh();
+        router.push("/documents");
         // router.push(`/documents/${childDoc.id}`);
     }
 
@@ -55,7 +57,10 @@ export const Item = ({
         event.stopPropagation();
         if (!id) return;
         await archiveDocument({ id, userId, isArchived: false });
-        if (render) render();
+        setRender();
+        if (params.documentId == id) {
+            router.push("/documents");
+        }
     }
 
     async function createNewDocument({ parentId, userId }: CreateDocumentType) {
@@ -66,7 +71,7 @@ export const Item = ({
                     parentId: parentId,
                 }
             });
-            if (render) render();
+            setRender();
             return doc;
         } catch (error) {
             console.error("Error while creating a new document : ", error)
@@ -117,7 +122,7 @@ export const Item = ({
                 </div>
             ) : (
                 <Icon
-                    className="shrink-0 h-[18px] mr-2 text-muted-foreground"
+                    className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground"
                 />
             )}
             <span className="truncate">
@@ -134,7 +139,7 @@ export const Item = ({
                         <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
                             <div
                                 role="button"
-                                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:bg-neutral-600">
+                                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600">
                                 <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
                             </div>
                         </DropdownMenuTrigger>

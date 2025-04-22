@@ -75,7 +75,6 @@ export type ItemsProps = {
     onExpand?: () => void,
     icon: LucideIcon,
     userId: string,
-    render?: () => void
 }
 
 export type ConfirmModalProps = {
@@ -96,7 +95,47 @@ export type SettingStore = {
     onClose: () => void,
 }
 
+export type RenderStore = {
+    render: boolean,
+    setRender: () => void,
+}
+
 export type MainNavbarProps = {
     isCollapsed: boolean,
     onResetWidth: () => void
+}
+
+export type UpdateDocProps = {
+    title?: string,
+    content?: string,
+    coverImage?: string,
+    icon?: string,
+    isPublished?: boolean
+}
+
+export type DocumentListProps = {
+    parentId?: string,
+    level?: number,
+    loading?: boolean
+    data?: DocumentType[],
+}
+
+export type IconPickerProps = {
+    onChange: (icon: string) => void,
+    children: React.ReactNode,
+    asChild?: boolean
+}
+
+export type EditorProps = {
+    onChange: (value: string) => void,
+    initialContent?: string,
+    editable?: boolean
+}
+
+export type CoverImageStore = {
+    url?: string
+    isOpen: boolean,
+    onOpen: () => void,
+    onClose: () => void,
+    onReplace: (url: string) => void,
 }

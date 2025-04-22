@@ -5,7 +5,7 @@ import { ToolBar } from "@/components/ToolBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DocumentType } from "@/lib/schema_types";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
@@ -19,7 +19,7 @@ export default function DocumentIdPage() {
     const [document, setDocument] = useState<DocumentType>();
 
     useEffect(() => {
-        axios.get(`/api/document?documentId=${params.documentId}`)
+        axios.get(`/api/document?documentId=${params.documentId}&preview=true`)
             .then((res) => {
                 setDocument(res.data)
             })
@@ -67,7 +67,6 @@ export default function DocumentIdPage() {
                 <h2 className="text-xl font-medium">
                     The requested page not found
                 </h2>
-
                 <Button>
                     <Link href={"/documents"}>
                         Go back
@@ -79,10 +78,11 @@ export default function DocumentIdPage() {
 
     return (
         <div className="pb-40">
-            <Cover url={document.coverImage} />
+            <Cover preview url={document.coverImage} />
             <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-                <ToolBar initialData={document} />
+                <ToolBar preview initialData={document} />
                 <Editor
+                    editable={false}
                     onChange={onChange}
                     initialContent={document.content}
                 />

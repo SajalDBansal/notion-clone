@@ -2,6 +2,7 @@
 
 import { SettingModal } from "@/components/modals/SettingModal";
 import { useEffect, useState } from "react";
+import { CoverImageModal } from "@/components/modals/coverImageModal";
 
 export const ModalProvider = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
     return (
         <>
             <SettingModal />
+            <CoverImageModal />
         </>
     )
 }

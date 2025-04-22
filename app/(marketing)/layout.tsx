@@ -11,7 +11,6 @@ const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
             <Footer />
         </div>
     )
-
 }
 
 export default MarketingLayout;

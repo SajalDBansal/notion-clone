@@ -3,6 +3,7 @@
 import { ConfirmModal } from "@/components/modals/confirmModal";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/Spinner";
+import { useRender } from "@/hooks/useRender";
 import { DocumentType } from "@/lib/schema_types";
 import axios from "axios";
 import { Search, Trash, Undo } from "lucide-react";
@@ -10,7 +11,7 @@ import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
-export const TrashBox = ({ render }: { render?: () => void }) => {
+export const TrashBox = () => {
     const router = useRouter();
     const params = useParams();
     const [archivedDocs, setArchivedDocs] = useState<DocumentType[]>([]);
@@ -18,6 +19,7 @@ export const TrashBox = ({ render }: { render?: () => void }) => {
     const session = useSession();
     const sessionUser = session.data?.user as { id: string };
     const [loading, setLoading] = useState(false);
+    const { render, setRender } = useRender();
 
     const [search, setSearch] = useState("");
 
@@ -83,7 +85,7 @@ export const TrashBox = ({ render }: { render?: () => void }) => {
     ) => {
         event.stopPropagation();
         await unArchiveDocument(documentId, true);
-        if (render) render();
+        setRender();
     }
 
     const onRemove = async (
@@ -91,6 +93,7 @@ export const TrashBox = ({ render }: { render?: () => void }) => {
     ) => {
         const deleted = await deleteDocument(documentId);
         setTrashLoader((t) => t!)
+        setRender();
         if (params.documentId === deleted.id) {
             router.push(`/documents`);
         }

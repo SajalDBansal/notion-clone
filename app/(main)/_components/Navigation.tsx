@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { UserItem } from "./UserItem";
@@ -18,10 +18,10 @@ import { Navbar } from "./Navbar";
 
 export const Navigation = () => {
     const search = useSearch();
+    const router = useRouter();
     const setting = useSetting();
     const params = useParams();
     const [loading, setLoading] = useState(false);
-    const [render, setRender] = useState(false);
     const pathName = usePathname();
     const session = useSession();
     const sessionUser = session.data?.user as { id: string };
@@ -165,8 +165,6 @@ export const Navigation = () => {
                 <div className="mt-4">
                     <DocumentList
                         loading={loading}
-                        render={render}
-                        setRender={setRender}
                     />
                     <Item
                         onClick={createNewDocument}
@@ -186,9 +184,7 @@ export const Navigation = () => {
                             className="p-0 pl-2 w-72"
                             side={isMobile ? "bottom" : "right"}
                         >
-                            <TrashBox
-                                render={() => setRender((t) => !t)}
-                            />
+                            <TrashBox />
                         </PopoverContent>
                     </Popover>
                 </div>

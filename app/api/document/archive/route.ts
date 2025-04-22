@@ -2,7 +2,7 @@ import { NEXT_AUTH } from "@/lib/auth";
 import { archiveDoc } from "@/lib/prisma_functions/Documents/archive/archiveDoc";
 import { getArchivedDocs } from "@/lib/prisma_functions/Documents/archive/getArchivedDocs";
 import { unarchivedDoc } from "@/lib/prisma_functions/Documents/archive/unArchiveDoc";
-import { deleteDocument } from "@/lib/prisma_functions/Documents/deleteDocument";
+import { deleteDocument } from "@/lib/prisma_functions/Documents/update/deleteDocument";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -45,7 +45,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     const doc = await req.json();
-    console.log(doc);
+    // console.log(doc);
 
     try {
         const deletedDoc = await deleteDocument(doc.id, doc.userId);
